@@ -210,13 +210,13 @@ installPrerequisites() {
     logger "Installing all necessary utilities for the installation..."
 
     if [ ${sys_type} == "yum" ]; then
-        eval "yum install curl unzip wget libcap telnet -y ${debug}"
+        eval "yum install curl unzip wget libcap telnet jq -y ${debug}"
     elif [ ${sys_type} == "zypper" ]; then
         eval "zypper -n install curl unzip wget ${debug}"         
         eval "zypper -n install libcap-progs ${debug} || zypper -n install libcap2 ${debug}"
     elif [ ${sys_type} == "apt-get" ]; then
         eval "apt-get update -q $debug"
-        eval "apt-get install apt-transport-https curl unzip wget libcap2-bin net-tools -y ${debug}"        
+        eval "apt-get install apt-transport-https curl unzip wget libcap2-bin net-tools jq -y ${debug}"        
     fi
 
     if [  "$?" != 0  ]; then
@@ -254,6 +254,22 @@ installWazuh() {
         eval "WAZUH_MANAGER='$MANAGER' WAZUH_AGENT_GROUP='$CUSTOMER' zypper -n install wazuh-agent=${WAZUH_VER}-${WAZUH_REV} ${debug}"
     else
         eval "WAZUH_MANAGER='$MANAGER' WAZUH_AGENT_GROUP='$CUSTOMER' ${sys_type} install wazuh-agent${sep}${WAZUH_VER}-${WAZUH_REV} -y ${debug}"
+        echo "logcollector.remote_commands=1" >> /var/ossec/etc/local_internal_options.conf
+        echo "wazuh_command.remote_commands=1" >> /var/ossec/etc/local_internal_options.conf
+        eval "echo '<ossec_config>
+    <client>
+    <server>
+      <address>$MANAGER</address>
+      <port>1514</port>
+      <protocol>tcp</protocol>
+    </server>
+    <config-profile>ubuntu, ubuntu20, ubuntu20.04</config-profile>
+    <notify_time>10</notify_time>
+    <time-reconnect>60</time-reconnect>
+    <auto_restart>yes</auto_restart>
+    <crypto_method>aes</crypto_method>
+  </client>
+  </ossec_config>' > /var/ossec/etc/ossec.conf"
     fi
     if [  "$?" != 0  ]; then
         logger -e "Wazuh installation failed"
