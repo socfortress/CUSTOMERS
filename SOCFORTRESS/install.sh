@@ -426,11 +426,11 @@ installClamav() {
         eval "apt-get install clamav clamav-daemon -y ${debug}"
         eval "freshclam ${debug}"
         eval "echo "@hourly /bin/freshclam --quiet" >> /etc/crontab ${debug}"
-        eval "echo "/home/
+        eval "echo '/home/
 /opt/
 /usr/bin/
 /etc/
-/usr/sbin/" > /opt/scanfolders.txt ${debug}"
+/usr/sbin/' > /opt/scanfolders.txt ${debug}"
         eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/Freshclam.conf -O /etc/freshclam.conf ${debug}"
         eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/scan.conf -O /etc/clamd.d/scan.conf ${debug}"
         eval "mkdir /root/scripts/ ${debug}"
