@@ -288,11 +288,11 @@ installVelo() {
     
     logger "Installing the Velo Agent..."
     if [ ${sys_type} == "yum" ]; then
-        eval "wget https://github.com/socfortress/Demo/$CUSTOMER/raw/main/velociraptor_0.6.2-1_client.rpm -O /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
+        eval "wget https://github.com/socfortress/Demo/CUSTOMERS/raw/main/$CUSTOMER/velociraptor_0.6.2-1_client.rpm -O /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
         eval "rpm -i /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
     else
-        eval "wget https://github.com/socfortress/Demo/$CUSTOMER/raw/main/velociraptor_0.6.2-1_client.rpm -O /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
-        eval "dpkg -i /opt/velociraptor_0.6.2-1_client.socfortress.deb ${debug}"
+        eval "wget https://github.com/socfortress/Demo/CUSTOMERS/raw/main/$CUSTOMER/velociraptor_0.6.2-1_client.socfortress.deb -O /opt/velociraptor_0.6.2-1_client.deb ${debug}"
+        eval "dpkg -i /opt/velociraptor_0.6.2-1_client.deb ${debug}"
     fi
     if [  "$?" != 0  ]; then
         logger -e "Velo installation failed"
@@ -319,7 +319,7 @@ installYara() {
         eval "/opt/yara-4.1.3/make ${debug}"
         eval "/opt/yara-4.1.3/make install ${debug}"
         eval "git clone https://github.com/Neo23x0/signature-base.git /opt/yara-4.1.3/ ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/yara_update_rules.sh -O /root/yara_update_rules.sh ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/yara_update_rules.sh -O /root/yara_update_rules.sh ${debug}"
         eval "chmod +x /root/yara_update_rules.sh ${debug}"
         eval "echo "0 0 1 * * /bin/bash /root/yara_update_rules.sh" >> /etc/crontab ${debug}"
         eval "echo "0 */3 * * * /usr/bin/bash /var/ossec/active-response/bin/yara_full_scan.sh" >> /etc/crontab ${debug}"
@@ -332,7 +332,7 @@ installYara() {
         eval "/opt/yara-4.1.3/make ${debug}"
         eval "/opt/yara-4.1.3/make install ${debug}"
         eval "git clone https://github.com/Neo23x0/signature-base.git /opt/yara-4.1.3/ ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/yara_update_rules.sh -O /root/yara_update_rules.sh ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/yara_update_rules.sh -O /root/yara_update_rules.sh ${debug}"
         eval "chmod +x /root/yara_update_rules.sh ${debug}"
         eval "echo "0 0 1 * * /bin/bash /root/yara_update_rules.sh" >> /etc/crontab ${debug}"
         eval "echo "0 */3 * * * /usr/bin/bash /var/ossec/active-response/bin/yara_full_scan.sh" >> /etc/crontab ${debug}"
@@ -357,14 +357,14 @@ installOsquery() {
         eval "yum-config-manager --add-repo https://pkg.osquery.io/rpm/osquery-s3-rpm.repo ${debug}"
         eval "yum-config-manager --enable osquery-s3-rpm ${debug}"
         eval "yum install osquery -y ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/osquery.conf -O /etc/osquery/osquery.conf ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/osquery.conf -O /etc/osquery/osquery.conf ${debug}"
     else
         eval "export OSQUERY_KEY=1484120AC4E9F8A1A577AEEE97A80C63C9D8B80B ${debug}"
         eval "apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys $OSQUERY_KEY ${debug}"
         eval "add-apt-repository 'deb [arch=amd64] https://pkg.osquery.io/deb deb main' ${debug}"
         eval "apt-get update ${debug}"
         eval "apt-get install osquery ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/osquery.conf -O /etc/osquery/osquery.conf ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/osquery.conf -O /etc/osquery/osquery.conf ${debug}"
     fi
     if [  "$?" != 0  ]; then
         logger -e "Osquery installation failed"
@@ -384,11 +384,11 @@ installPacketbeat() {
     if [ ${sys_type} == "yum" ]; then
         eval "wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.16.3-x86_64.rpm -O /opt/packetbeat-7.16.3-x86_64.rpm ${debug}"
         eval "rpm -i /opt/packetbeat-7.16.3-x86_64.rpm ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/packetbeat.yml -O /etc/packetbeat/packetbeat.yml ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/packetbeat.yml -O /etc/packetbeat/packetbeat.yml ${debug}"
     else
         eval "wget https://artifacts.elastic.co/downloads/beats/packetbeat/packetbeat-7.16.3-amd64.deb -O /opt/packetbeat-7.16.3-amd64.deb ${debug}"
         eval "dpkg -i /opt/packetbeat-7.16.3-amd64.deb ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/packetbeat.yml -O /etc/packetbeat/packetbeat.yml ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/packetbeat.yml -O /etc/packetbeat/packetbeat.yml ${debug}"
     fi
     if [  "$?" != 0  ]; then
         logger -e "Packetbeat installation failed"
@@ -415,10 +415,10 @@ installClamav() {
 /usr/bin/
 /etc/
 /usr/sbin/" > /opt/scanfolders.txt ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/Freshclam.conf -O /etc/freshclam.conf ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/scan.conf -O /etc/clamd.d/scan.conf ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/Freshclam.conf -O /etc/freshclam.conf ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/scan.conf -O /etc/clamd.d/scan.conf ${debug}"
         eval "mkdir /root/scripts/ ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/clamscan.sh -O /root/scripts/clamscan.sh ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/clamscan.sh -O /root/scripts/clamscan.sh ${debug}"
         eval "chmod +x /root/scripts/clamscan.sh ${debug}"
         eval "echo "0 8 * * * /root/scripts/clamscan.sh" >> /etc/crontab ${debug}"
     else
@@ -431,10 +431,10 @@ installClamav() {
 /usr/bin/
 /etc/
 /usr/sbin/" > /opt/scanfolders.txt ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/Freshclam.conf -O /etc/freshclam.conf ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/scan.conf -O /etc/clamd.d/scan.conf ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/Freshclam.conf -O /etc/freshclam.conf ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/scan.conf -O /etc/clamd.d/scan.conf ${debug}"
         eval "mkdir /root/scripts/ ${debug}"
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/clamscan.sh -O /root/scripts/clamscan.sh ${debug}"
+        eval "https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/clamscan.sh -O /root/scripts/clamscan.sh ${debug}"
         eval "chmod +x /root/scripts/clamscan.sh ${debug}"
         eval "echo "0 8 * * * /root/scripts/clamscan.sh" >> /etc/crontab ${debug}"
     fi
@@ -454,10 +454,10 @@ installAuditctl() {
     
     logger "Installing auditctl..."
     if [ ${sys_type} == "yum" ]; then
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/auditd.conf -O /etc/audit/rules.d/audit.rules ${debug}" 
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/auditd.conf -O /etc/audit/rules.d/audit.rules ${debug}" 
         eval "auditctl -R /etc/audit/rules.d/audit.rules ${debug}"
     else
-        eval "wget https://raw.githubusercontent.com/OpenSecureCo/Kickstart/main/auditd.conf -O /etc/audit/rules.d/audit.rules ${debug}"
+        eval "wget https://raw.githubusercontent.com/socfortress/CUSTOMERS/main/$CUSTOMER/auditd.conf -O /etc/audit/rules.d/audit.rules ${debug}"
         eval "auditctl -R /etc/audit/rules.d/audit.rules ${debug}"
     fi
     if [  "$?" != 0  ]; then
