@@ -614,12 +614,12 @@ networkCheck() {
         exit 1;
     fi
     connectionLog=$(telnet $MANAGER $WAZUHPORTLOG | grep Connected | awk '{print $1}')
-    if [ ${connectionReg} != "Connected" ]; then
+    if [ ${connectionLog} != "Connected" ]; then
         logger -e "No internet connection to $MANAGER on $WAZUHPORTREG. To perform an offline installation, please run this script with the option -d/--download-packages in a computer with internet access, copy the wazuh-packages.tar file generated on this computer and run again this script."
         exit 1;
     fi
     connectionVelo=$(telnet $VELOMANAGER $VELOPORT | grep Connected | awk '{print $1}')
-    if [ ${connectionReg} != "Connected" ]; then
+    if [ ${connectionVelo} != "Connected" ]; then
         logger -e "No internet connection to $VELOMANAGER on $VELOPORT. To perform an offline installation, please run this script with the option -d/--download-packages in a computer with internet access, copy the wazuh-packages.tar file generated on this computer and run again this script."
         exit 1;
     fi
