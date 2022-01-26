@@ -678,9 +678,9 @@ main() {
             checkInstalled
         else
             checkInstalled        
-        fi         
-        networkCheck   
+        fi            
         installPrerequisites
+        networkCheck
         addWazuhrepo
         installWazuh
         installVelo
@@ -690,9 +690,9 @@ main() {
         installAuditctl
            
     else
+        installPrerequisites
         networkCheck
         checkInstalled
-        installPrerequisites
         addWazuhrepo
         installWazuh
         installVelo
