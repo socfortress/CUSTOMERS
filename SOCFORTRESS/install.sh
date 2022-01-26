@@ -288,10 +288,10 @@ installVelo() {
     
     logger "Installing the Velo Agent..."
     if [ ${sys_type} == "yum" ]; then
-        eval "wget https://github.com/socfortress/Demo/CUSTOMERS/raw/main/$CUSTOMER/velociraptor_0.6.2-1_client.rpm -O /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
+        eval "wget https://github.com/socfortress/CUSTOMERS/raw/main/$CUSTOMER/velociraptor_0.6.2-1_client.socfortress.rpm -O /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
         eval "rpm -i /opt/velociraptor_0.6.2-1_client.rpm ${debug}"
     else
-        eval "wget https://github.com/socfortress/Demo/CUSTOMERS/raw/main/$CUSTOMER/velociraptor_0.6.2-1_client.socfortress.deb -O /opt/velociraptor_0.6.2-1_client.deb ${debug}"
+        eval "wget https://github.com/socfortress/CUSTOMERS/raw/main/$CUSTOMER/velociraptor_0.6.2-1_client.socfortress.deb -O /opt/velociraptor_0.6.2-1_client.deb ${debug}"
         eval "dpkg -i /opt/velociraptor_0.6.2-1_client.deb ${debug}"
     fi
     if [  "$?" != 0  ]; then
