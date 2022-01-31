@@ -26,7 +26,7 @@ LOG_FILE="/var/ossec/logs/active-responses.log"
 for f in "${folders_to_scan[@]}"
 do
   for f1 in $( find $f -type f); do
-  yara_output=$(/usr/bin/yara -C -w -r -f -m /usr/local/signature-base/yara_base_ruleset_compiled.yar "$f1")
+  yara_output=$(/opt/yara-4.1.3/yara -C -w -r -f -m /usr/local/signature-base/yara_base_ruleset_compiled.yar "$f1")
   if [[ $yara_output != "" ]]
   then
       # Iterate every detected rule and append it to the LOG_FILE
@@ -40,7 +40,7 @@ done
 for e in "${file_extenstions_to_scan[@]}"
 do
   for f1 in $( find / -type f | grep -F $e ); do
-    yara_output=$(/usr/bin/yara -C -w -r -f -m /usr/local/signature-base/yara_base_ruleset_compiled.yar "$f1")
+    yara_output=$(/opt/yara-4.1.3/yara -C -w -r -f -m /usr/local/signature-base/yara_base_ruleset_compiled.yar "$f1")
     if [[ $yara_output != "" ]]
     then
     # Iterate every detected rule and append it to the LOG_FILE
