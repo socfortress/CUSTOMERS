@@ -7,9 +7,9 @@ IFS=$(echo -en "\n\b")
 # Static active response parameters
 LOCAL=`dirname $0`
 #------------------------- Folder where Yara rules (files) will be placed -------------------------#
-git_repo_folder="/opt/yara-4.1.3/signature-base"
+git_repo_folder="/usr/local/signature-base"
 yara_file_extenstions=( ".yar" )
-yara_rules_list="/opt/yara-4.1.3/signature-base/yara_rules_list.yar"
+yara_rules_list="/usr/local/signature-base/yara_rules_list.yar"
 
 #------------------------- Main workflow --------------------------#
 
@@ -33,6 +33,6 @@ do
   done
 done
 # Compile Yara Rules
-/opt/yara-4.1.3/yarac $yara_rules_list /opt/yara-4.1.3/signature-base/yara_base_ruleset_compiled.yar
+/opt/yara-4.1.3/yarac $yara_rules_list /usr/local/signature-base/yara_base_ruleset_compiled.yar
 IFS=$SAVEIFS
 exit 1;
