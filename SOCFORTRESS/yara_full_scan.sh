@@ -5,7 +5,7 @@
 # Foundation.
 
 #------------------------- Set Memory Limit (KB)-------------------------#
-ulimit -v 128000
+#ulimit -v 128000
 #------------------------- Aadjust IFS to read files -------------------------#
 SAVEIFS=$IFS
 IFS=$(echo -en "\n\b")
